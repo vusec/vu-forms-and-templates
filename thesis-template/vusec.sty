@@ -1,0 +1,235 @@
+\ProvidesPackage{vusec}
+
+
+\usepackage{array}
+\usepackage[english]{babel}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{multirow}
+\usepackage[group-separator={,},per-mode=symbol,binary-units=true]{siunitx}
+\usepackage{subcaption}
+\usepackage{tabu}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage[normalem]{ulem}
+
+\usepackage{hyperref}
+
+
+\hypersetup{pdfstartview=FitH,
+  pdfpagelayout=SinglePage,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  colorlinks=true,
+  citecolor=blue,
+  linkcolor= blue,
+  urlcolor=blue}
+
+% If you use the hyperref package, please uncomment the following line to display
+% URLs in blue roman font according to Springer's eBook style.
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+% To make it easier to break overflowing URLs.
+\def\UrlBreaks{\do\.\do-\do\/\do\_}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+
+%% ---( general text formatting )---
+%%
+
+%% Use the `\term' or `\newterm' macro to define a term on first use. Makes it
+%% easy to check if the term has been ``introduced'' multiple times.
+\newcommand{\term}[1]{\emph{#1}}
+\newcommand{\newterm}[1]{\emph{#1}}
+%% For text or terms that require some emphasis.
+\newcommand{\stress}[1]{\textit{#1}}
+
+\newcommand{\mt}[1]{\ensuremath{\mbox{\textit{#1}}}}
+\newcommand{\tsup}[1]{\ensuremath{^{\textrm{#1}}}}
+\newcommand{\tsub}[1]{\ensuremath{_{\textrm{#1}}}}
+
+%% Circled numbers in text.
+\newcommand{\numcirc}[1]{\textcircled{\scriptsize{\textbf{#1}}}}
+
+%% Commands to start a paragraph with an ``inline heading''.
+\newcommand{\parahd}[1]{\medskip{} \noindent \textbf{#1}}
+\newcommand{\parab}[1]{\vspace{0.02in}\noindent{\textbf{#1}}\quad}
+\newcommand{\parai}[1]{\vspace{0.02in}\noindent{\textit{#1}}\quad}
+\newcommand{\paraib}[1]{\vspace{0.06in}\noindent{\textit{\textbf{#1}}}\quad}
+
+\newcommand{\case}[0]{$\star$ \xspace}
+
+%% Captions, by default, look a bit ugly. These macros adds a bit of
+%% emphasis to captions.
+%% Figure formatting.
+\newcommand{\figcap}[1]{\caption{\textit{#1}}}
+\newcommand{\sfigcap}[1]{\caption{\textit{\scriptsize #1}}}
+%% Table formatting.
+\newcommand{\tabcap}[1]{\caption{\textit{#1}}}
+\newcommand{\thead}[1]{\textbf{\textit{#1}}}
+\setlength{\tabcolsep}{4pt}
+
+%% Formatting large numbers?
+%% Simply use `\num{123456789}'. Note the **absence of comma**.
+%%
+%% What about numbers with SI units?
+%%
+%% Ideally, there should be a *single space* between a number and the SI unit.
+%% Units cannot be in plural form.
+%% Units are not capitalized.
+%% Most people do not remember these rules, and it is, hence, better to define
+%% macros to make the task easier. The macros use commands from the `siunitx'
+%% package.
+\newcommand{\ums}[1]{\SI{#1}{\milli\second}}
+\newcommand{\us}[1]{\SI{#1}{\second}}
+\newcommand{\uGB}[1]{\SI{#1}{\giga\byte}}
+\newcommand{\uGHz}[1]{\SI{#1}{GHz}}
+\newcommand{\uKbps}[1]{\SI{#1}{Kbps}}
+\newcommand{\uMbps}[1]{\SI{#1}{Mbps}}
+\newcommand{\uGbps}[1]{\SI{#1}{Gbps}}
+\newcommand{\uMB}[1]{\SI{#1}{\mega\byte}}
+\newcommand{\uKB}[1]{\SI{#1}{KB}}
+
+%%
+%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+%% ---( predefined constants for figure widths )---
+%%
+
+%% Width of figures in a one-column grid.
+\newlength{\onecolgrid}
+\setlength{\onecolgrid}{2.2in}
+%% Width of figures in a two-column grid.
+\newlength{\twocolgrid}
+\setlength{\twocolgrid}{0.4\textwidth}
+%% Width of figures in a three-column grid.
+\newlength{\threecolgrid}
+\setlength{\threecolgrid}{0.28\textwidth}
+%% Width of figures in a four-column grid.
+\newlength{\fourcolgrid}
+\setlength{\fourcolgrid}{0.24\textwidth}
+
+%%
+%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+%% ---( reviewing macros )---
+%%
+
+\ifEditMode
+%% Turn on all editing macros.
+%%
+
+\newcommand{\editlabel}[1]{\raisebox{.35ex}{\scriptsize \scshape[#1]}}
+% \newcommand{\editlabel}[1]{}
+
+%% Text to be reviewed (by senior authors).
+\newcommand{\REVIEW}[1]{\textcolor[HTML]{377eb8}{\editlabel{Review} #1}\xspace{}}
+%% Text to be reviewed across more than one paragraph (by senior authors).
+\newenvironment{REVIEWLONG}{\color[HTML]{377eb8}}{\ignorespacesafterend}
+%% Dummy text.
+\newenvironment{IGNORE}{\color[HTML]{6B6D6E}}{\ignorespacesafterend}
+
+%% Text to revisit.
+\newcommand{\REVISIT}[1]{\textcolor[HTML]{984ea3}{\editlabel{Revisit} #1}}\xspace{}
+
+%% Ideas to pursue.
+\newcommand{\PENDING}[1]{\textcolor[HTML]{e67e22}{$\cdots$ \editlabel{Pending} \textit{#1} $\cdots$}\xspace{}}
+
+%% Things to do.
+\newcommand{\TODO}[1]{\textcolor[HTML]{e41a1c}{#1}}
+
+%% Issues to address.
+\newcommand{\FIXME}[2]{
+  \textcolor[HTML]{c0392b}{\textit{FIXME(#1): \textbf{#2}}}}
+\newcommand{\MISSING}[1]{\textcolor[HTML]{de2d26}{\textbf{#1}}}
+
+%% Recommendation to remove.
+\newcommand{\REMOVE}[1]{
+  {\small \textcolor{a65628}{#1\\--- Consider deleting.}}}
+
+\else
+%% Turn off all editing macros.
+%%
+
+%% Text marked in `REVIEW' and `REVISIT' **will** be included, but the coloring
+%% or special markup will be removed.
+\newcommand{\REVIEW}[1]{#1}
+\newcommand{\REVISIT}[1]{#1}
+
+\newcommand{\PENDING}[1]{}
+\newcommand{\TODO}[1]{}
+\newcommand{\FIXME}[2]{}
+\newcommand{\MISSING}[1]{}
+\newcommand{\REMOVE}[1]{}
+\newenvironment{REVIEWLONG}{}{}
+\newenvironment{IGNORE}{}{}
+
+\fi
+
+%%
+%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+%% ---( draft customizations )---
+%% 
+
+%% Disable / remove copyright boxes
+\setcopyright{none}
+\settopmatter{printacmref=false,printfolios}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\acmConference{\ifcase \month \or January\or February\or March\or %
+  April\or May \or June\or July\or August\or September\or October\or November\or %
+  December\fi}{\number \year{}}{\thauthoraff}
+\acmYear{2021}
+\acmPrice{}
+\acmDOI{}
+\acmISBN{}
+
+
+%% Graphics Path to find your figures and illustrations.
+\graphicspath{{./figs/}}
+
+%% 
+%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+%% ---( workarounds )---
+%%
+
+% \usepackage{etoolbox}
+%\makeatletter
+%\patchcmd\@combinedblfloats{\box\@outputbox}{\unvbox\@outputbox}{}{\errmessage{\noexpand patch failed}}
+%\makeatother
+
+% pdfTeX error (ext4):
+% \pdfendlink ended up in different nesting level than \pdfstartlink.
+%
+% “Sometimes, the links are created by the bibliography, from items with URL
+% fields. A solution that helps in this case and preserves clickable links is to
+% make sure that each \bibitem is typeset without column or page breaks:”
+% (https://tex.stackexchange.com/questions/1522/pdfendlink-ended-up-in-different-nesting-level-than-pdfstartlink)
+%
+% \let\oldbibitem\bibitem
+% \def\bibitem{\vfill\oldbibitem}
+
+% % Workaround for 8pt references font issue
+% \renewcommand*{\bibfont}{\smaller}
+
+%%
+%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End:

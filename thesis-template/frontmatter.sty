@@ -1,0 +1,236 @@
+\ProvidesPackage{frontmatter}
+
+
+%% ---( thesis details )---
+%% 
+
+%% Thesis type.
+\newcommand\thtype[1]{\def\@thtype{#1}}
+%% Default thesis type.
+\thtype{csmaster}
+
+%% Course code.
+\newcommand\thcc[1]{\def\@thcoursecode{#1}}
+\thcc{0}
+
+%% Thesis title.
+\newcommand\thtitle[1]{\def\@thtitle{#1}}
+\thtitle{My Thesis: what, why, and how?}
+
+%% Student name.
+\newcommand\thauthname[1]{\def\@thauthname{#1}}
+\thauthname{Anonymous Penguin}
+
+%% Student ID.
+\newcommand\thauthid[1]{\def\@thauthid{#1}}
+\thauthid{AP007}
+
+%% First supervisor.
+\newcommand{\thsvfirst}[2]{%
+  \def\@thsvfirstname{#1}%
+  \def\@thsvfirsttitle{#2}}
+\thsvfirst{Skipper}{Leader of the penguins}
+
+%% Daily supervisor.
+\newcommand{\thsvdaily}[2]{%
+  \def\@thsvdailyname{#1}%
+  \def\@thsvdailytitle{#2}}
+\thsvdaily{Kowalski}{Group strategist and gadgeteer}
+
+%% Second reader.
+\newcommand{\thrdrsecond}[2]{%
+  \def\@thrdrsecondname{#1}%
+  \def\@thrdrsecondtitle{#2}}
+\thrdrsecond{Rico}{Weapons and explosives specialist}
+
+%% 
+%% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%% Degree type.
+\long\def\@degtype{Unknown}
+%% Degree program.
+\long\def\@degprog{Unknown}
+%% Degree title.
+\long\def\@degname{Unknown}
+\newcommand{\@updatedegtype}{
+  \long\def\thtype@bsvu{vubachelor}%
+  \long\def\thtype@msjoint{csmaster}%
+  %% (Old) PDCS Master's degree.
+  \long\def\thtype@pdcsmsvu{pdcsmaster}%
+  %% Computer Security (new PDCS) Master's degree.
+  \long\def\thtype@csecmsvu{csecmaster}%
+  %% NOTE: `litstudy' is technically not a thesis type.
+  %% It may, however, be considered a document type,
+  %% which is one of the things specified by `thtype.'
+  %%
+  \long\def\thtype@litstudy{litstudy}%
+  \ifthenelse{\equal{\@thtype}{\thtype@bsvu}}{%
+    %% VU Bachelor Thesis
+    \def\@degtype{Bachelor}
+    %% Nothing special.
+    \def\@degprog{degree}
+    %% Degree title
+    \def\@degname{Bachelor of Science}}{%
+    \ifthenelse{\equal{\@thtype}{\thtype@msjoint}}{%
+      %% UvA-VU Joint Master Thesis
+      \def\@degtype{Master}
+      %% Nothing special.
+      \def\@degprog{joint UvA-VU degree}
+      %% Degree title
+      \def\@degname{Master of Science}}{%
+      \ifthenelse{\equal{\@thtype}{\thtype@pdcsmsvu}}{%
+        %% VU PDCS Master Thesis
+        \def\@degtype{Master}
+        %% Nothing special.
+        \def\@degprog{degree}
+        %% Degree title
+        \def\@degname{‘Parallel and Distributed Computer Systems’ %
+          Master of Science}}{%
+        \ifthenelse{\equal{\@thtype}{\thtype@csecmsvu}}{% 
+          %% Computer Security (new PDCS) Master Thesis
+          \def\@degtype{Master}
+          %% Nothing special.
+          \def\@degprog{degree}
+          %% Degree title
+          \def\@degname{‘Computer Security’ %
+            Master of Science}}{%
+          \ifthenelse{\equal{\@thtype}{\thtype@litstudy}}{%
+            %% Literature study.
+            \def\@degtype{Literature Study}
+            %% NOTE: The following values do not matter,
+            %% since there will be no declaration or banner.
+            %% We are setting the values below just for consistency.
+            %% Only applicable for the UvA-VU Joint Master Thesis
+            \def\@degprog{joint UvA-VU degree}
+            \def\@degname{Master of Science}}{%
+            \PackageError{frontmatter}{%
+              Unknown thesis type}{%
+              Expected one of (`vubachelor', `csmaster', `pdcsmaster')}
+          }}
+      }
+    }
+  }
+}
+
+
+\newcommand{\fmsplash}{
+  \ifthenelse{\equal{\@thtype}{\thtype@msjoint}%
+    \OR%
+    \equal{\@thtype}{\thtype@litstudy}}{%
+    %% UvA-VU Joint Master Thesis
+    \begin{figure}
+      \begin{minipage}[c]{0.35\linewidth}
+        \includegraphics[width=\linewidth]{resources/logos/vua}
+      \end{minipage}
+      \hfill
+      \begin{minipage}[c]{0.35\linewidth}
+        \includegraphics[width=\linewidth]{resources/logos/uva}
+      \end{minipage}
+    \end{figure}}{%
+    %%   VU Bachelor or Master Thesis
+    \begin{figure}
+      \begin{minipage}[c]{0.35\linewidth}
+        \includegraphics[width=\linewidth]{resources/logos/vua}
+      \end{minipage}
+    \end{figure}
+  }
+  
+  \vspace*{3em}
+  \ifthenelse{\equal{\@thtype}{\thtype@litstudy}}{%
+    %% Not a thesis type!
+    {\LARGE \@degtype{}}}{%
+    %% Thesis type.
+    {\LARGE \@degtype{} Thesis}%
+    %% Course code
+    \ifthenelse{\equal{\@thcoursecode}{0}}{%
+      %% Do nothing!
+    }{%
+      {\\\small (\textsc{Course Code}: \@thcoursecode{})}%
+      }%
+  }%
+  \vspace*{3em}%
+}
+
+
+\newcommand{\fmtitle}{
+  \par
+  \rule{.9\linewidth}{.6pt}\\[0.2cm]
+  {\huge \bfseries \@thtitle{}\par}\vspace{0.2cm}
+  \rule{.9\linewidth}{.6pt}\\[1.5em]\vspace*{2mm}
+  \par
+  {\Large
+    {by}\vspace{1em}\\
+    \@thauthname{}\\\vspace{0.2em}%
+  }{\small (\textsc{Student Number}: \@thauthid{})}\vspace*{3em}
+  % %% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  % %% NOTE: If VU is the degree granting institution for the joint degree, then we
+  % %% should enable the following block.
+  % %% ------------------------------
+  % \ifthenelse{\equal{\@thtype}{\thtype@msjoint}}{%
+  %   %% UvA-VU Joint Master Thesis
+  %   \par \textit{%
+  %     Submitted in partial fulfillment of the requirements\\
+  %     for the \@degprog{} of\\
+  %     \@degname{}\\
+  %     in\\
+  %     Computer Science}
+  %   }{%
+  %   %% VU Bachelor or Master Thesis
+  %   \par \textit{%
+  %     Submitted in partial fulfillment of the requirements\\
+  %     for the \@degprog{} of\\
+  %     \@degname{}\\
+  %     in\\
+  %     Computer Science\\
+  %     at the\\
+  %     Vrije Universiteit Amsterdam}
+  % }  
+  \par
+  \ifthenelse{\equal{\@thtype}{\thtype@litstudy}}{%
+    %% No declaration, since it is not a degree!
+    \vspace{8em}
+  }{%
+  \textit{%
+    Submitted in partial fulfillment of the requirements\\
+    for the \@degprog{} of\\
+    \@degname{}\\
+    in\\
+    Computer Science\\
+    at the\\
+    Vrije Universiteit Amsterdam}}\vspace*{3em}
+  \par
+  \today\\[3em]
+  % \par
+  % \begin{tabular}{rl}
+  %   {\it First supervisor:} & ~~\@thsvfirst{} \\
+  %   {\it Daily supervisor:} & ~~\@thsvdaily{} \\
+  %   {\it Second reader:}    & ~~\@thrdrsecond{}
+  % \end{tabular}
+  {\centering
+    \begin{minipage}[c]{0.85\linewidth}
+      Certified by \dotfill\\
+      \null\hfill\@thsvfirstname{}\\
+      \null\hfill\@thsvfirsttitle{}\\
+      \null\hfill\textit{First Supervisor}\\\\
+      Certified by \dotfill\\
+      \null\hfill\@thsvdailyname{}\\
+      \null\hfill\@thsvdailytitle{}\\
+      \null\hfill\textit{Daily Supervisor}\\\\
+      Certified by \dotfill\\
+      \null\hfill\@thrdrsecondname{}\\
+      \null\hfill\@thrdrsecondtitle{}\\
+      \null\hfill\textit{Second reader}\\\\
+    \end{minipage}
+  }
+}
+
+
+\newcommand{\addfrontmatter}[0]{
+  \thispagestyle{empty}
+  \@updatedegtype{}
+  \begin{center}
+    \fmsplash{}
+    \fmtitle{}
+  \end{center}
+  \newpage
+}

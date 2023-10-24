@@ -1,0 +1,104 @@
+\documentclass[sigconf,screen,9pt]{acmart}
+
+% Flag to disable all editing macros and make the document ready for
+%  submission.
+\newif\ifEditMode
+
+% Editing mode.
+\EditModetrue
+% % Submission mode.
+% % The `submission' mode merges certain comments and edits, and removes some
+% % other notes, TODOs and remarks. For more details, refer to the `reviewing
+% % macros' in the `vusec.sty' file.
+% \EditModefalse
+
+
+\usepackage{vusec}
+\usepackage{frontmatter}
+\usepackage{aliases}
+
+
+\begin{document}
+
+
+%% Thesis title.
+\newcommand{\thesistitle}{My Thesis: what, why, and how?}
+
+
+%% Author information.
+%% (Used in a couple of places, so it's better to define them in one place.)
+\newcommand{\thauthor}{Anonymous Penguin}
+%%  Student number.
+\newcommand{\thauthorid}{007}
+\newcommand{\thauthoremail}{anonpenguin@student.vu.nl}
+\newcommand{\thauthoraff}{Vrije Universiteit Amsterdam}
+
+
+%% Thesis type.
+%% Valid values are `vubachelor', `csmaster', `pdcsmaster', `csecmaster', and `litstudy'.
+%%
+\thtype{csecmaster}
+
+%% Course code.
+% \thcc{0123}
+
+%% Thesis title.
+\thtitle{\thesistitle}
+
+%% Paper/thesis author.
+\thauthname{\thauthor}
+\thauthid{\thauthorid}
+
+%% First supervisor.
+% \thsvfirst{First supervisor's name}{First supervisor's title}
+
+%% Daily supervisor.
+% \thsvdaily{Daily supervisor's name}{Daily supervisor's title}
+
+%% Second reader.
+% \thrdrsecond{Second reader's name}{Second reader's title}
+
+\pagenumbering{gobble}
+%% Attach customize front matter.
+\addfrontmatter{}
+
+
+\title{\thesistitle}
+
+\author{\thauthor}
+\affiliation{
+  \institution{\thauthoraff}
+  \city{Amsterdam}
+  \country{NL}
+}
+\email{\thauthoremail}
+
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\maketitle
+
+\pagenumbering{arabic}
+
+\input{sections/intro}
+\input{sections/background}
+\input{sections/threat-model}
+\input{sections/overview}
+\input{sections/design}
+\input{sections/evaluation}
+\input{sections/discussion}
+\input{sections/related}
+\input{sections/conclusion}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
