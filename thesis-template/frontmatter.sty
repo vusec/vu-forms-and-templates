@@ -11,7 +11,7 @@
 
 %% Course code.
 \newcommand\thcc[1]{\def\@thcoursecode{#1}}
-\thcc{0}
+\thcc{XX\_442211}
 
 %% Thesis title.
 \newcommand\thtitle[1]{\def\@thtitle{#1}}
@@ -140,13 +140,14 @@
     %% Not a thesis type!
     {\LARGE \@degtype{}}}{%
     %% Thesis type.
-    {\LARGE \@degtype{} Thesis}%
-    %% Course code
-    \ifthenelse{\equal{\@thcoursecode}{0}}{%
-      %% Do nothing!
-    }{%
-      {\\\small (\textsc{Course Code}: \@thcoursecode{})}%
-      }%
+    {\LARGE \textsc{\@degtype{}'s Thesis}}%
+  }%
+  %
+  %% Course code
+  \ifthenelse{\equal{\@thcoursecode}{0}}{%
+    %% Do nothing!
+  }{%
+    {\\\small (\textsc{Course Code}: \@thcoursecode{})}%
   }%
   \vspace*{3em}%
 }
@@ -219,7 +220,7 @@
       Certified by \dotfill\\
       \null\hfill\@thrdrsecondname{}\\
       \null\hfill\@thrdrsecondtitle{}\\
-      \null\hfill\textit{Second reader}\\\\
+      \null\hfill\textit{Second Reader}\\\\
     \end{minipage}
   }
 }

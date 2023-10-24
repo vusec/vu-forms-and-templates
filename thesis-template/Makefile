@@ -44,5 +44,5 @@ clean: mostlyclean
 
 
 # Bundle files into an archive.
-paper-thesis-fmt.zip: $(MAIN).pdf
+paper-thesis-fmt.zip: mostlyclean | $(MAIN).pdf
 	@zip -r $@ . -x "*.git*" -x "*.DS_Store"

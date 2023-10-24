@@ -66,6 +66,7 @@
 \newcommand{\paraib}[1]{\vspace{0.06in}\noindent{\textit{\textbf{#1}}}\quad}
 
 \newcommand{\case}[0]{$\star$ \xspace}
+\newcommand{\chk}[1]{\vspace{0.02in}\noindent$\square{}$~\textbf{#1}}
 
 %% Captions, by default, look a bit ugly. These macros adds a bit of
 %% emphasis to captions.
@@ -149,13 +150,13 @@
 \newcommand{\TODO}[1]{\textcolor[HTML]{e41a1c}{#1}}
 
 %% Issues to address.
-\newcommand{\FIXME}[2]{
+\newcommand{\FIXME}[2]{%
   \textcolor[HTML]{c0392b}{\textit{FIXME(#1): \textbf{#2}}}}
 \newcommand{\MISSING}[1]{\textcolor[HTML]{de2d26}{\textbf{#1}}}
 
 %% Recommendation to remove.
-\newcommand{\REMOVE}[1]{
-  {\small \textcolor{a65628}{#1\\--- Consider deleting.}}}
+\newcommand{\REMOVE}[1]{%
+  {\small \textcolor{a65628}{#1\\---consider deleting.}}}
 
 \else
 %% Turn off all editing macros.
